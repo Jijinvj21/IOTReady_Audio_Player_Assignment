@@ -6,22 +6,18 @@ import { FaRegCirclePause } from "react-icons/fa6";
 import { FaRegPlayCircle } from "react-icons/fa";
 import { MdPlaylistPlay } from "react-icons/md";
 import { TbMusicUp } from "react-icons/tb";
-
-
-
-
-
-
+import { IoIosArrowDropleft } from "react-icons/io";
+import { IoIosArrowDropright } from "react-icons/io";
 
 export {
-    IoIosArrowBack, //left arrow
-    IoIosArrowForward, //right arrow 
-    IoReorderThreeOutline, //three line
-    LuListMusic, //music
-    FaRegCirclePause, //pause
-    FaRegPlayCircle, //play
-    MdPlaylistPlay, //playlist
-    TbMusicUp, //music add
-
-    
-}
+  IoIosArrowBack, //left arrow
+  IoIosArrowForward, //right arrow
+  IoReorderThreeOutline, //three line
+  LuListMusic, //music
+  FaRegCirclePause, //pause
+  FaRegPlayCircle, //play
+  IoIosArrowDropleft, //player left arrow
+  IoIosArrowDropright, //player right arrow
+  MdPlaylistPlay, //playlist
+  TbMusicUp, //music add
+};
