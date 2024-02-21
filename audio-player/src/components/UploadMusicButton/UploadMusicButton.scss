@@ -1,0 +1,15 @@
+.upload_music_button{
+    margin-top: 15px;
+    padding: 5px;
+    border: dashed;
+    border-radius: 10px;
+    .custom-upload {
+        
+        border-radius: 4px;
+        cursor: pointer;
+        padding: 4px 10px;
+        input {
+        display: none;
+       }
+    }
+}

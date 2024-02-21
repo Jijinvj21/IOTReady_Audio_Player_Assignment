@@ -8,6 +8,8 @@ import { MdPlaylistPlay } from "react-icons/md";
 import { TbMusicUp } from "react-icons/tb";
 import { IoIosArrowDropleft } from "react-icons/io";
 import { IoIosArrowDropright } from "react-icons/io";
+import { RiFolderUploadFill } from "react-icons/ri";
+
 
 export {
   IoIosArrowBack, //left arrow
@@ -20,4 +22,6 @@ export {
   IoIosArrowDropright, //player right arrow
   MdPlaylistPlay, //playlist
   TbMusicUp, //music add
+  RiFolderUploadFill, //upload icon
+  
 };
