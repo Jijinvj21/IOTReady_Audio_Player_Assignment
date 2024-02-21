@@ -6,17 +6,23 @@ import {
   IoReorderThreeOutline,
   MdPlaylistPlay,
   TbMusicUp,
+  LuListMusic,
 } from "../../assets/Icons/react-Icons";
 import { Link } from "react-router-dom";
 function Header() {
   const items = [
     {
       key: "1",
+      label: <LuListMusic size={20} />,
+      link: "/",
+    },
+    {
+      key: "2",
       label: <TbMusicUp size={20} />,
       link: "/add_music",
     },
     {
-      key: "2",
+      key: "3",
       label: <MdPlaylistPlay size={20} />,
       link: "/playlist",
     },

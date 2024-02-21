@@ -75,7 +75,7 @@ function AddMusicPage() {
               <>
                 <RiFolderUploadFill size={60} />
                 <h1 className="text-center">
-                  START UPLOADING YOUR SONGS RIGHT HEAD
+                  START UPLOADING YOUR SONG RIGHT NOW
                 </h1>
               </>
             )}
