@@ -22,6 +22,10 @@
     width: 260px;
   }
   .Music_controller {
+    button{
+      background-color: transparent;
+      border: none;
+    }
     .music_range {
       input {
         width: 65%;

@@ -1,26 +1,63 @@
-import { useContext, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import "./MusicPlayer.scss";
 import {
   FaRegCirclePause,
   IoIosArrowDropleft,
   IoIosArrowDropright,
+  FaRegPlayCircle,
 } from "../../assets/Icons/react-Icons";
-import { AudioContext } from "../ContextProvider/ContextProvider";
-// eslint-disable-next-line
-function MusicPlayer({ image, width, height, music_name, artist }) {
-  const { playlist, setTrack, currentTrackId } = useContext(AudioContext);
-  const [sliderValue, setSliderValue] = useState(0);
 
-  const handleNext = () => {
-    setTrack(currentTrackId + 1 >= playlist.length ? 0 : currentTrackId + 1);
+function MusicPlayer({
+  image,
+  width,
+  height,
+  src,
+  handlePrevious,
+  handleNext,
+  musicName,
+  artistName,
+}) {
+  const audioRef = useRef(new Audio(src));
+
+  const [duration, setDuration] = useState(0);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [currentTime, setCurrentTime] = useState(0);
+
+  const togglePlayback = () => {
+    if (isPlaying) {
+      audioRef.current.pause();
+    } else {
+      audioRef.current.play();
+    }
+    setIsPlaying(!isPlaying);
   };
 
-  const handlePrevious = () => {
-    setTrack(currentTrackId === 0 ? playlist.length - 1 : currentTrackId - 1);
+  const handleTimeUpdate = () => {
+    setCurrentTime(audioRef.current.currentTime);
   };
-  const handleSliderChange = (event) => {
-    setSliderValue(event.target.value);
+
+  const handleLoadedMetadata = () => {
+    setDuration(audioRef.current.duration);
   };
+
+  const handleSeek = (e) => {
+    const newTime = e.target.value;
+    audioRef.current.currentTime = newTime;
+    setCurrentTime(newTime);
+  };
+
+  function formatTime(time) {
+    const minutes = Math.floor(time / 60);
+    const seconds = Math.floor(time % 60);
+    return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
+  }
+
+  useEffect(() => {
+    if (src) {
+      audioRef.current.src = URL.createObjectURL(src);
+      audioRef.current.load();
+    }
+  }, [src]);
 
   return (
     <div className="player_container_section py-5">
@@ -34,26 +71,55 @@ function MusicPlayer({ image, width, height, music_name, artist }) {
         />
       </div>
       <div className="music_data d-flex flex-column mt-3">
-        <h4 className="m-0">{playlist[currentTrackId]?.musicName}</h4>
-        <p>{artist}</p>
+        <h4 className="m-0">{musicName}</h4>
+        <p>{artistName}</p>
       </div>
 
       <div className="Music_controller w-100 mt-4">
         <div className="d-flex justify-content-center align-items-center gap-4  ">
-          <IoIosArrowDropleft size={35} onClick={handlePrevious} />
-          <FaRegCirclePause size={40} />
-          <IoIosArrowDropright size={35} onClick={handleNext} />
+          <IoIosArrowDropleft
+            size={35}
+            onClick={() => {
+              handlePrevious();
+              setIsPlaying(false);
+            }}
+          />
+
+          <button onClick={togglePlayback}>
+            {" "}
+            {isPlaying && duration !== currentTime ? (
+              <FaRegCirclePause size={40} />
+            ) : (
+              <FaRegPlayCircle size={40} />
+            )}
+          </button>
+          <IoIosArrowDropright
+            size={35}
+            onClick={() => {
+              handleNext();
+              setIsPlaying(false);
+            }}
+          />
         </div>
         <div className="music_range d-flex justify-content-center align-items-center gap-2 mt-4">
+          <p>{formatTime(currentTime)}</p>
           <input
             id="minmax-range"
             type="range"
-            min={0}
-            max={10}
-            onChange={handleSliderChange}
-            value={sliderValue}
+            max={duration}
+            value={currentTime}
+            onChange={handleSeek}
             className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700 "
           />
+          <p>{formatTime(duration)}</p>
+
+          <audio
+            ref={audioRef}
+            onTimeUpdate={handleTimeUpdate}
+            onLoadedMetadata={handleLoadedMetadata}
+          >
+            <source src={src} />
+          </audio>
         </div>
       </div>
     </div>

@@ -6,9 +6,9 @@ import { AudioContext } from "../../components/ContextProvider/ContextProvider";
 import useLocalStorageMusic from "../../hooks/useLocalStorageMusic";
 
 function PlayListPage() {
-  const { playlist, setTrack } = useContext(AudioContext);
+  const { playlist, setTrack,  } = useContext(AudioContext);
   const handleTrackChange = (track_id) => {
-    setTrack(track_id); // Corrected the variable name here
+    setTrack(track_id); 
   };
   const musicFromLocalStorage = useLocalStorageMusic();
 
