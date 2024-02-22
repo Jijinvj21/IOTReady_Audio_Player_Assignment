@@ -6,6 +6,8 @@ import {
   IoIosArrowDropright,
   FaRegPlayCircle,
 } from "../../assets/Icons/react-Icons";
+import useLocalStorageSize from "../../hooks/useLocalStorageSize";
+import { Alert } from "react-bootstrap";
 
 function MusicPlayer({
   image,
@@ -23,7 +25,7 @@ function MusicPlayer({
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
 
-  //  start form refresh positon 
+  //  start form refresh positon
 
   // useEffect(() => {
   //   const savedState = JSON.parse(localStorage.getItem("musicPlayerState"));
@@ -33,7 +35,7 @@ function MusicPlayer({
   //     setCurrentTime(savedState.currentTime);
   //   }
   // }, []);
-  
+
   // useEffect(() => {
   //   console.log("Saving state:", { isPlaying, currentTime });
   //   localStorage.setItem(
@@ -41,7 +43,7 @@ function MusicPlayer({
   //     JSON.stringify({ isPlaying, currentTime })
   //   );
   // }, [isPlaying, currentTime]);
-  
+
   const togglePlayback = () => {
     if (isPlaying) {
       audioRef.current.pause();
@@ -105,7 +107,6 @@ function MusicPlayer({
           />
 
           <button onClick={togglePlayback}>
-            {" "}
             {isPlaying && duration !== currentTime ? (
               <FaRegCirclePause size={40} />
             ) : (
