@@ -4,6 +4,11 @@ import { RiFolderUploadFill } from "../../assets/Icons/react-Icons";
 import { Alert, Container } from "react-bootstrap";
 import UploadMusicDataForm from "../../components/UploadMusicDataForm/UploadMusicDataForm";
 import { useEffect, useState } from "react";
+import { useContext } from "react";
+import { AudioContext } from "../../components/ContextProvider/ContextProvider";
+import useAudioUploader from "../../hooks/useAudioUploader";
+import { getBase64 } from "../../utility/getBase64";
+import useLocalStorageSize from "../../hooks/useLocalStorageSize";
 
 function AddMusicPage() {
   const [musicName, setMusicName] = useState("");
@@ -11,8 +16,18 @@ function AddMusicPage() {
   const [selectedFile, setSelectedFile] = useState(null);
   const [error, setError] = useState("");
   const [loader, setLoader] = useState(false);
+  const { setTrack } = useContext(AudioContext);
+  const { uploadAudioToLocalStorage } = useAudioUploader();
+  const { totalSpace, usedSpace, remainingSpace } = useLocalStorageSize();
 
-  const handleSubmit = (e) => {
+  const handleTrackChange = (trackId) => {
+    setTrack(trackId);
+  };
+  useEffect(() => {
+    handleTrackChange(1);
+  }, []);
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     // Validate music name
@@ -45,15 +60,27 @@ function AddMusicPage() {
 
     // If all validations pass, proceed with form submission
     setLoader(true);
-    console.log("Music Name:", musicName);
-    console.log("Artist Name:", artistName);
-    console.log("Selected File:", selectedFile);
+    const formData = {
+      musicName: musicName,
+      artistName: artistName,
+      selectedFile: await getBase64(selectedFile),
+    };
+    console.log(selectedFile);
+    try {
+      uploadAudioToLocalStorage(formData);
+      console.log("Upload successful");
+      setMusicName("");
+      setArtistName("");
+      setError("");
+      setSelectedFile(null);
+      setLoader(false);
+    } catch (error) {
+      console.error("Error occurred while uploading:", error.message);
+      // Handle the error as needed
+      setLoader(false);
+    }
 
-    // Reset fields and error state
-    // setMusicName("");
-    // setArtistName("");
-    // setSelectedFile(null);
-    // setError("");
+    // https://staxmanade.com/2015/11/how-to-base64-and-save-a-binary-audio-file-to-local-storage-and-play-it-back-in-the-browser/
   };
 
   return (
@@ -77,6 +104,11 @@ function AddMusicPage() {
                 <h1 className="text-center">
                   START UPLOADING YOUR SONG RIGHT NOW
                 </h1>
+                <div className="d-flex flex-column text-center gap-1 fs-5">
+                  <p>Total space: {totalSpace} Mp</p>
+                  <p>Used space: {usedSpace} Mp</p>
+                  <p>Remaining space: {remainingSpace} Mp</p>
+                </div>
               </>
             )}
           </div>
