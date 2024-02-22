@@ -80,7 +80,6 @@ function AddMusicPage() {
       setLoader(false);
     }
 
-    // https://staxmanade.com/2015/11/how-to-base64-and-save-a-binary-audio-file-to-local-storage-and-play-it-back-in-the-browser/
   };
 
   return (
