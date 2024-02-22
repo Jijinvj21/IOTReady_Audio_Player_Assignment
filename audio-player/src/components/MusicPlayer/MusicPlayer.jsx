@@ -23,6 +23,25 @@ function MusicPlayer({
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
 
+  //  start form refresh positon 
+
+  // useEffect(() => {
+  //   const savedState = JSON.parse(localStorage.getItem("musicPlayerState"));
+  //   console.log("Saved state:", savedState);
+  //   if (savedState) {
+  //     setIsPlaying(savedState.isPlaying);
+  //     setCurrentTime(savedState.currentTime);
+  //   }
+  // }, []);
+  
+  // useEffect(() => {
+  //   console.log("Saving state:", { isPlaying, currentTime });
+  //   localStorage.setItem(
+  //     "musicPlayerState",
+  //     JSON.stringify({ isPlaying, currentTime })
+  //   );
+  // }, [isPlaying, currentTime]);
+  
   const togglePlayback = () => {
     if (isPlaying) {
       audioRef.current.pause();
